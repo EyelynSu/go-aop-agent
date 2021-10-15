@@ -13,10 +13,6 @@ func pinpointMiddleware(ctx context.Context, req server.Request, rsp interface{}
 	addClueFunc := func(key, value string) {
 		common.Pinpoint_add_clue(key, value, traceId, common.CurrentTraceLoc)
 	}
-	addCluesFunc := func(key, value string) {
-		common.Pinpoint_add_clues(key, value, traceId, common.CurrentTraceLoc)
-	}
-
 	catchPanic := true
 	defer func() {
 		if catchPanic {
@@ -113,7 +109,6 @@ func pinpointMiddleware(ctx context.Context, req server.Request, rsp interface{}
 		common.Pinpoint_drop_trace(traceId)
 		common.Pinpoint_set_context(common.PP_HEADER_PINPOINT_SAMPLED, "s0", traceId)
 	}
-	addCluesFunc(common.PP_HTTP_METHOD, "9162")
 
 	// update context
 	nCtx := context.WithValue(ctx, common.TRACE_ID, traceId)
